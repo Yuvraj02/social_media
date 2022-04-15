@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:social_media/providers/registration_provider.dart';
 import 'package:social_media/screens/home_screen.dart';
 import 'package:social_media/screens/login_screen.dart';
+import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 
 void main() async {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.dark(),
-        home: AuthHelper.user == null?LoginScreen():HomeScreen(AuthHelper.user),
+        home: AuthHelper.user == null?LoginScreen():ScreenHandler(),
         // routes: {
         //   '/login':(context) => LoginScreen(),
         //   '/register_student':(context) => RegisterStudentScreen(),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media/screens/home_screen.dart';
 import 'package:social_media/screens/newUserScreens/club_selection_screen.dart';
 import 'package:social_media/screens/register_student_screen.dart';
+import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 import 'package:social_media/utilities/navigation_helper.dart';
 
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (_) => HomeScreen(user)));
+                                builder: (_) => ScreenHandler()));
                      //   NavigationHelper.removeLoginPage(widget.loginPageContext);
                       }
                     }
