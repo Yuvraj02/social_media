@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media/providers/registration_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
-import 'package:social_media/utilities/auth_helper.dart';
 
 class RegisterStudentScreen extends StatelessWidget {
   BuildContext loginScreenContext;
@@ -16,6 +16,9 @@ class RegisterStudentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    RegistrationProvider provider = Provider.of<RegistrationProvider>(context);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -36,13 +39,7 @@ class RegisterStudentScreen extends StatelessWidget {
                   decoration: InputDecoration(labelText: 'Password')),
               ElevatedButton(
                   onPressed: () {
-                    AuthHelper.registerUser(_nameController.text,
-                            _emailController.text, _passwordController.text)
-                        .then((value) => FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(value!.uid).set({"email": value.email,
-                                                  "uid":value.uid,
-                                                  "name":value.displayName},));
+                    provider.registerUser(_nameController.text, _emailController.text, _passwordController.text);
                     Navigator.pop(loginScreenContext);
                     Navigator.pushReplacement(
                         context,
