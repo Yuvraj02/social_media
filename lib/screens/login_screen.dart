@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/home_screen.dart';
 import 'package:social_media/screens/newUserScreens/club_selection_screen.dart';
-import 'package:social_media/screens/register_student_screen.dart';
+import 'package:social_media/screens/registrationScreens/register_entity_screen.dart';
+import 'package:social_media/screens/registrationScreens/register_student_screen.dart';
 import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
-import 'package:social_media/utilities/navigation_helper.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Enter Your SRM Email ID here'),
               ),
               TextFormField(
+                obscureText: true,
                 controller: _passwordController,
                 decoration: textFormFieldDecoration.copyWith(
                     label: Text("Password"), hintText: 'Enter Your Password'),
@@ -54,8 +55,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context,
-                        //     RegisterStudentScreen.registerStudentScreenRout);
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -63,7 +62,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text("Register as Student")),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => RegisterEntityScreen(context)));
+                    },
                     child: Text(
                       "Register as Verified Entity",
                       style: TextStyle(color: Colors.blueGrey),

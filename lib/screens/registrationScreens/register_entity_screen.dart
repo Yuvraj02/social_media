@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_media/providers/registration_provider.dart';
-import 'package:social_media/screens/login_screen.dart';
 
-class RegisterStudentScreen extends StatelessWidget {
+import '../../providers/registration_provider.dart';
+import '../login_screen.dart';
+
+class RegisterEntityScreen extends StatelessWidget {
+
   BuildContext loginScreenContext;
 
-  RegisterStudentScreen(this.loginScreenContext);
+  RegisterEntityScreen(this.loginScreenContext);
 
-  static String registerStudentScreenRout = '/register_student';
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -28,25 +29,26 @@ class RegisterStudentScreen extends StatelessWidget {
             children: [
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: "Name"),
+                decoration: InputDecoration(labelText: "Club Name"),
               ),
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: "Email"),
+                decoration: InputDecoration(labelText: "Club Email"),
               ),
               TextFormField(
+                  obscureText: true,
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: 'Password')),
               ElevatedButton(
                   onPressed: () {
-                    provider.registerUser(_nameController.text, _emailController.text, _passwordController.text);
+                    provider.registerEntity(_nameController.text, _emailController.text, _passwordController.text);
                     Navigator.pop(loginScreenContext);
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (_) => LoginScreen(
-                                  loginPageContext: loginScreenContext,
-                                )));
+                              loginPageContext: loginScreenContext,
+                            )));
                   },
                   child: Text("Register"))
             ],

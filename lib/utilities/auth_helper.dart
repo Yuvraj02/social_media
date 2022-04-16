@@ -1,10 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:social_media/screens/home_screen.dart';
-import 'package:social_media/screens/login_screen.dart';
 
-//bool isLateUser=false;
 bool newUser = false;
 
 class AuthHelper {
@@ -12,6 +7,7 @@ class AuthHelper {
 
   static get user => _auth.currentUser;
   static bool justRegisterd = false;
+  static String? UID;
 
   static Future<User?> registerUser(
       String name, String email, String password) async {
@@ -45,7 +41,6 @@ class AuthHelper {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      //isLateUser = await userCredential.additionalUserInfo!.isNewUser;
       user = userCredential.user;
       creationTime = user?.metadata.creationTime;
       lastSignIn = user?.metadata.lastSignInTime;
@@ -68,4 +63,9 @@ class AuthHelper {
   static signOut() => _auth.signOut();
 
   static Stream<User?> get onAuthStateChanged => _auth.authStateChanges();
+
+  static Future<String> getCurrentUID() async {
+    return _auth.currentUser!.uid;
+  }
+
 }

@@ -1,11 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:social_media/screens/clubs_screen.dart';
-import 'package:social_media/screens/events_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:social_media/providers/feed_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
-import 'package:social_media/screens/profile_screen.dart';
-import 'package:social_media/screens/search_screen.dart';
+import 'package:social_media/screens/postScreens/post_screen_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
+import 'package:social_media/widgets/post_card.dart';
 
 class HomeScreen extends StatefulWidget {
   User user;
@@ -17,34 +18,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // int currentIndex = 0;
-  // final screens = [
-  //    // HomeScreen(),
-  //    SearchScreen(),
-  //    ClubScreen(),
-  //    EventScreen(),
-  //    ProfileScreen(),
-  //
-  // ];
-
-  void _push(BuildContext context, Widget screen) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
-  }
-
   @override
   Widget build(BuildContext context) {
+    FeedProvider provider = Provider.of<FeedProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () async {
-            await AuthHelper.signOut();
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => LoginScreen()));
-          },
+        appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => PostScreen()));
+                },
+                icon: Icon(Icons.add_box_outlined)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.message_outlined))
+          ],
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () async {
+              await AuthHelper.signOut();
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => LoginScreen()));
+            },
+          ),
         ),
-      ),
-      body: Text("Good"),
+        body: StreamBuilder<QuerySnapshot>(
+            stream: provider.postStream,
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
+              if (snapshot.hasError) {
+                return Text('Something went wrong');
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return ListView(
+                children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                  Map<String, dynamic> data =
+                      document.data()! as Map<String, dynamic>;
+                  return PostCard(
+                      data['postUrl'], data['caption'], data['name']);
+                  //   ListTile(
+                  //   title: Text(data['caption']),
+                  // );
+                }).toList(),
+              );
+            })
     );
   }
 }

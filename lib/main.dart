@@ -1,9 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:social_media/providers/clubs_screen_provider.dart';
+import 'package:social_media/providers/feed_provider.dart';
+import 'package:social_media/providers/post_screen_provider.dart';
 import 'package:social_media/providers/registration_provider.dart';
 import 'package:social_media/screens/home_screen.dart';
 import 'package:social_media/screens/login_screen.dart';
+import 'package:social_media/screens/postScreens/post_screen_handler.dart';
 import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 
@@ -19,11 +23,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context)=>RegistrationProvider(),)],
+      providers: [
+        ChangeNotifierProvider(create: (context) => RegistrationProvider(),),
+        ChangeNotifierProvider(create: (context)=>PostProvider()),
+        ChangeNotifierProvider(create: (context)=>FeedProvider()),
+        ChangeNotifierProvider(create: (context)=>ClubsProvider()),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.dark(),
-        home: AuthHelper.user == null?LoginScreen():ScreenHandler(),
+        home: AuthHelper.user == null ? LoginScreen() : ScreenHandler(),
         // routes: {
         //   '/login':(context) => LoginScreen(),
         //   '/register_student':(context) => RegisterStudentScreen(),
