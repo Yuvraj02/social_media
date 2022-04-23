@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/providers/clubs_screen_provider.dart';
 
-import '../widgets/post_card.dart';
 
 class ClubScreen extends StatelessWidget {
   const ClubScreen({Key? key}) : super(key: key);

@@ -18,6 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     FeedProvider provider = Provider.of<FeedProvider>(context);
@@ -46,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
             stream: provider.postStream,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
@@ -54,18 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-              return ListView(
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data()! as Map<String, dynamic>;
+              return ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  DocumentSnapshot data = snapshot.data!.docs[index];
                   return PostCard(
                       data['postUrl'], data['caption'], data['name']);
-                  //   ListTile(
-                  //   title: Text(data['caption']),
-                  // );
-                }).toList(),
-              );
+                });
             })
-    );
+        );
   }
 }

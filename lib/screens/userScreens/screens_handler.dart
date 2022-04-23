@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:social_media/screens/profile_screen.dart';
-import 'package:social_media/screens/search_screen.dart';
+import 'package:social_media/screens/userScreens/profile_screen.dart';
+import 'package:social_media/screens/userScreens/search_screen.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 import 'clubs_screen.dart';
 import 'events_screen.dart';

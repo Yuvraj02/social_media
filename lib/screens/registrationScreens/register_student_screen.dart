@@ -16,8 +16,18 @@ class RegisterStudentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     RegistrationProvider provider = Provider.of<RegistrationProvider>(context);
+
+    String extractUsername(String email) {
+      String username = "";
+      for (int i = 0; i < email.length; i++) {
+        if (email[i] == "@") {
+          break;
+        }
+        username += email[i];
+      }
+      return username;
+    }
 
     return Scaffold(
       body: SafeArea(
@@ -35,12 +45,16 @@ class RegisterStudentScreen extends StatelessWidget {
                 decoration: InputDecoration(labelText: "Email"),
               ),
               TextFormField(
-                 obscureText: true,
+                  obscureText: true,
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: 'Password')),
               ElevatedButton(
                   onPressed: () {
-                    provider.registerStudent(_nameController.text, _emailController.text, _passwordController.text);
+                    provider.registerStudent(
+                        name: _nameController.text,
+                        userName: extractUsername(_emailController.text),
+                        email: _emailController.text,
+                        password: _passwordController.text);
                     Navigator.pop(loginScreenContext);
                     Navigator.pushReplacement(
                         context,

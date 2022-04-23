@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:social_media/providers/search_trending_provider.dart';
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key? key}) : super(key: key);
+  SearchAndTrendingProvider? searchAndTrendingProvider;
+
+  SearchBar({this.searchAndTrendingProvider});
 
   @override
   State<SearchBar> createState() => _SearchBarState();
 }
 
 class _SearchBarState extends State<SearchBar> {
-
   var searchController = TextEditingController();
 
   @override
@@ -25,13 +27,21 @@ class _SearchBarState extends State<SearchBar> {
         child: Row(
           children: [
             const Icon(Icons.search),
-            const SizedBox(width: 4,),
+            const SizedBox(
+              width: 4,
+            ),
             Expanded(
-              child: TextFormField(
-                controller: searchController,
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Search User"),
+              child: FocusScope(
+                child: Focus(
+                  onFocusChange: (focus) {
+                    print("Focus : $focus");
+                  },
+                  child: TextField(
+                    controller: searchController,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none, hintText: "Search User"),
+                  ),
+                ),
               ),
             )
           ],

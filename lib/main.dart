@@ -1,19 +1,20 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/providers/clubs_screen_provider.dart';
 import 'package:social_media/providers/feed_provider.dart';
 import 'package:social_media/providers/post_screen_provider.dart';
 import 'package:social_media/providers/registration_provider.dart';
-import 'package:social_media/screens/home_screen.dart';
+import 'package:social_media/providers/search_trending_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
-import 'package:social_media/screens/postScreens/post_screen_handler.dart';
-import 'package:social_media/screens/screens_handler.dart';
+import 'package:social_media/screens/userScreens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await DefaultCacheManager().emptyCache();
   runApp(const MyApp());
 }
 
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context)=>PostProvider()),
         ChangeNotifierProvider(create: (context)=>FeedProvider()),
         ChangeNotifierProvider(create: (context)=>ClubsProvider()),
+        ChangeNotifierProvider(create: (context)=>SearchAndTrendingProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

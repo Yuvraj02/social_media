@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PostCard extends StatelessWidget {
@@ -26,9 +27,10 @@ class PostCard extends StatelessWidget {
           Container(
             height: 350,
             width: 1080,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(url), fit: BoxFit.fill)),
+            child: CachedNetworkImage(imageUrl:url,fit: BoxFit.fill,),
+            // decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         image: NetworkImage(url), fit: BoxFit.fill)),
           ),
           Row(
             children: [

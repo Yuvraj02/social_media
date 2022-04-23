@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_media/models/post_model.dart';
 import 'package:social_media/utilities/auth_helper.dart';
@@ -30,20 +32,37 @@ class PostProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //-----------To pick the media
   pickImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
-    XFile? _file = await _imagePicker.pickImage(source: source);
-    if (_file != null) {
-      return await _file.readAsBytes();
+    XFile? _file = await _imagePicker.pickImage(source: source,imageQuality: 2);
+
+    if(_file!=null) {
+      File actualFile = File(_file.path);
+      File? croppedFile =  await cropImage(actualFile);
+      if(croppedFile != null){
+        return croppedFile.readAsBytes();
+      }else{
+        print("Another File is null");
+      }
     }
     print('No Image Selected');
   }
 
+  Future<File?> cropImage(File file) async {
+    return await ImageCropper().cropImage(
+        sourcePath: file.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatioPresets: [CropAspectRatioPreset.square]);
+
+  }
+
   Future<String> _uploadToFirebaseStorage(
       String childName, Uint8List file, bool isPost) async {
-    Reference ref = _storage.ref().child(childName).child(_firebaseAuth.currentUser!.uid);
+    Reference ref =
+        _storage.ref().child(childName).child(_firebaseAuth.currentUser!.uid);
 
-    if(isPost){
+    if (isPost) {
       String id = const Uuid().v1();
       ref = ref.child(id);
     }
@@ -56,7 +75,8 @@ class PostProvider with ChangeNotifier {
     return downloadUrl;
   }
 
-  Future<String> uploadPost({required Uint8List file,required String caption}) async {
+  Future<String> uploadPost(
+      {required Uint8List file, required String caption}) async {
     String res = "Some Error Occured";
     try {
       String postUrl = await _uploadToFirebaseStorage('posts', file, true);
