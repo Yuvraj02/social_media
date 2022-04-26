@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/providers/search_trending_provider.dart';
+import 'package:social_media/screens/userScreens/searched_user_profile_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -10,14 +11,12 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  //var searchController = TextEditingController();
   bool isSearching = false;
 
   @override
   Widget build(BuildContext context) {
     SearchAndTrendingProvider provider =
         Provider.of<SearchAndTrendingProvider>(context);
-
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -81,10 +80,16 @@ class _SearchScreenState extends State<SearchScreen> {
                     shrinkWrap: true,
                     itemCount: provider.tempSearchStore.length,
                     itemBuilder: (context, index) {
-                      print(provider.tempSearchStore[index]['name']);
                       return ListTile(
-                        title: Text(provider.tempSearchStore[index]['username']),
-                        subtitle: Text(provider.tempSearchStore[index]['name']),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_)=> SearchedUserProfileScreen(provider.tempSearchStore[index])));
+                        },
+                        title:
+                            Text(provider.tempSearchStore[index].userName),
+                        subtitle: Text(provider.tempSearchStore[index].name!),
                       );
                     }),
           ],

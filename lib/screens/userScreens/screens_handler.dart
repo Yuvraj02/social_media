@@ -24,9 +24,16 @@ class _ScreenHandlerState extends State<ScreenHandler> {
     ProfileScreen(),
   ];
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AuthHelper.entityCheck();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(

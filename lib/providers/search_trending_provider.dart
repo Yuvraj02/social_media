@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:social_media/models/user_model.dart';
 
 class SearchAndTrendingProvider extends ChangeNotifier {
-  var queryResultSet = [];
-  var tempSearchStore = [];
+  List<User> queryResultSet = [];
+  List<User> tempSearchStore = [];
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -27,19 +28,21 @@ class SearchAndTrendingProvider extends ChangeNotifier {
       tempSearchStore = [];
       notifyListeners();
     } else {
-      var capitalizedValue = value.substring(0, 1).toUpperCase() + value.substring(1);
-     queryByName(value,capitalizedValue);
-      if(tempSearchStore.isEmpty){
+      var capitalizedValue =
+          value.substring(0, 1).toUpperCase() + value.substring(1);
+      queryByName(value, capitalizedValue);
+      if (tempSearchStore.isEmpty) {
         queryByUserName(value);
       }
     }
   }
 
-  queryByName(String value,String capitalizedValue) {
+  queryByName(String value, String capitalizedValue) {
     if (queryResultSet.isEmpty && value.length == 1) {
       searchByName(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.docs.length; ++i) {
-          queryResultSet.add(docs.docs[i].data());
+          print(docs.docs[i].data());
+          queryResultSet.add(User.fromJson(docs.docs[i].data() as Map<String, dynamic>));
           tempSearchStore = queryResultSet;
           notifyListeners();
         }
@@ -47,7 +50,7 @@ class SearchAndTrendingProvider extends ChangeNotifier {
     } else {
       tempSearchStore = [];
       for (var element in queryResultSet) {
-        if (element['name'].startsWith(capitalizedValue)) {
+        if (element.name!.startsWith(capitalizedValue)) {
           tempSearchStore.add(element);
           notifyListeners();
         }
@@ -59,7 +62,7 @@ class SearchAndTrendingProvider extends ChangeNotifier {
     if (queryResultSet.isEmpty && value.length == 1) {
       searchByUsername(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.docs.length; ++i) {
-          queryResultSet.add(docs.docs[i].data());
+          queryResultSet.add(User.fromJson(docs.docs[i].data() as Map<String, dynamic>));
           tempSearchStore = queryResultSet;
           notifyListeners();
         }
@@ -67,7 +70,7 @@ class SearchAndTrendingProvider extends ChangeNotifier {
     } else {
       tempSearchStore = [];
       for (var element in queryResultSet) {
-        if (element['username'].startsWith(value)) {
+        if (element.name!.startsWith(value)) {
           tempSearchStore.add(element);
           notifyListeners();
         }

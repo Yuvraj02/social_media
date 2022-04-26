@@ -75,26 +75,28 @@ class PostProvider with ChangeNotifier {
     return downloadUrl;
   }
 
-  Future<String> uploadPost(
-      {required Uint8List file, required String caption}) async {
+  Future<String> uploadPost({ Uint8List? file, required String caption}) async {
     String res = "Some Error Occured";
-    try {
-      String postUrl = await _uploadToFirebaseStorage('posts', file, true);
-      String? name = _firebaseAuth.currentUser!.displayName;
-      String postId = const Uuid().v1();
-      Post post = Post(
-          postUrl: postUrl,
-          postID: postId,
-          caption: caption,
-          uid: _firebaseAuth.currentUser!.uid,
-          name: name!,
-          date: Timestamp.now());
-
-      _firestore.collection('posts').doc(postId).set(post.toJson());
-      res = "success";
-    } catch (err) {
-      res = err.toString();
+    String? postUrl;
+    if(file!=null){
+      postUrl = await _uploadToFirebaseStorage('posts', file, true);
     }
+    try{
+        String? name = _firebaseAuth.currentUser!.displayName;
+        String postId = const Uuid().v1();
+        Post post = Post(
+            postUrl: postUrl,
+            postID: postId,
+            caption: caption,
+            uid: _firebaseAuth.currentUser!.uid,
+            name: name!,
+            date: Timestamp.now());
+
+        _firestore.collection('posts').doc(postId).set(post.toJson());
+        res = "success";
+      } catch (err) {
+      res = err.toString();
+      }
     return res;
   }
 }

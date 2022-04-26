@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  String postUrl;
+  String? postUrl;
   String postID;
   String caption;
   String uid;
@@ -9,7 +9,7 @@ class Post {
   Timestamp date;
 
   Post(
-      {required this.postUrl,
+      {this.postUrl,
       required this.postID,
       required this.caption,
       required this.uid,

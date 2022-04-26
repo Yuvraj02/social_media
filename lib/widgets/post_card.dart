@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PostCard extends StatelessWidget {
-  String url;
+  String? url;
   String caption;
   String name;
 
-  PostCard(this.url, this.caption,this.name);
+  PostCard(this.url, this.caption, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -19,19 +19,35 @@ class PostCard extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircleAvatar(backgroundColor: Colors.white,),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                ),
               ),
               Text(name),
             ],
           ),
-          Container(
-            height: 350,
-            width: 1080,
-            child: CachedNetworkImage(imageUrl:url,fit: BoxFit.fill,),
-            // decoration: BoxDecoration(
-            //     image: DecorationImage(
-            //         image: NetworkImage(url), fit: BoxFit.fill)),
-          ),
+          url != null
+              ? Container(
+                  height: 350,
+                  width: 1080,
+                  child: CachedNetworkImage(
+                    placeholder: (context, url) =>
+                        Center(child: CircularProgressIndicator()),
+                    imageUrl: url!,
+                    fit: BoxFit.fill,
+                  ),
+                  // decoration: BoxDecoration(
+                  //     image: DecorationImage(
+                  //         image: NetworkImage(url), fit: BoxFit.fill)),
+                )
+              : Padding(
+                padding: const EdgeInsets.only(left: 16.0,top: 16),
+                child: Container(
+                    height: 30,
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(caption),
+                  ),
+              ),
           Row(
             children: [
               IconButton(
@@ -42,15 +58,18 @@ class PostCard extends StatelessWidget {
               IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_border)),
             ],
           ),
-          Padding(
+          url != null? Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Text("$name ",style: TextStyle(fontWeight: FontWeight.bold),),
-                Text(caption)
+                Text(
+                  "$name",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(caption),
               ],
             ),
-          ),
+          ):const SizedBox(),
         ],
       ),
     );

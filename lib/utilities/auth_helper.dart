@@ -1,13 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 bool newUser = false;
 
 class AuthHelper {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   static get user => _auth.currentUser;
   static bool justRegisterd = false;
   static String? UID;
+  static bool? isVerifiedEntity;
+
+  static entityCheck() async {
+    UID = await AuthHelper.getCurrentUID();
+    var collection = _firestore.collection('/entities/entities_list/names');
+    var docSnapshot = await collection.doc(UID).get();
+    if (docSnapshot.exists) {
+      isVerifiedEntity = true;
+    }
+  }
 
   static Future<User?> registerUser(
       String name, String email, String password) async {

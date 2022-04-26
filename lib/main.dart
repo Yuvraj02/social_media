@@ -7,6 +7,7 @@ import 'package:social_media/providers/feed_provider.dart';
 import 'package:social_media/providers/post_screen_provider.dart';
 import 'package:social_media/providers/registration_provider.dart';
 import 'package:social_media/providers/search_trending_provider.dart';
+import 'package:social_media/providers/user_details_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
 import 'package:social_media/screens/userScreens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context)=>FeedProvider()),
         ChangeNotifierProvider(create: (context)=>ClubsProvider()),
         ChangeNotifierProvider(create: (context)=>SearchAndTrendingProvider()),
+        ChangeNotifierProvider(create: (context)=>UserDetailsProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

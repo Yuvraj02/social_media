@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_media/providers/post_screen_provider.dart';
 import 'package:social_media/screens/postScreens/entity_post_screen.dart';
 import 'package:social_media/screens/postScreens/student_posts_screen.dart';
+import 'package:social_media/utilities/auth_helper.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);
@@ -25,9 +26,11 @@ class _PostScreenState extends State<PostScreen> {
         ),
         title: Text("Post"),
       ),
-      body: provider.isEntity == null
+      body:
+      provider.isEntity == null
+        //AuthHelper.isVerifiedEntity == null
           ? Center(child: CircularProgressIndicator())
-          : provider.isEntity == true
+          :provider.isEntity == true
               ? EntityPosts()
               : StudentPosts(),
     );

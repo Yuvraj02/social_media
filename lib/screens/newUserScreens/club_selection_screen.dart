@@ -5,9 +5,7 @@ import 'package:social_media/screens/newUserScreens/edit_profile_screen.dart';
 class ClubSelectionNewUser extends StatelessWidget {
 
   User user;
-
   ClubSelectionNewUser(this.user);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

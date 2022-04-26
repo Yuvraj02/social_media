@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   Widget build(BuildContext context) {
     FeedProvider provider = Provider.of<FeedProvider>(context);
@@ -50,18 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
-
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
+
               return ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  DocumentSnapshot data = snapshot.data!.docs[index];
-                  return PostCard(
-                      data['postUrl'], data['caption'], data['name']);
-                });
-            })
-        );
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot data = snapshot.data!.docs[index];
+                    print(snapshot.data!.docs.length);
+                    return PostCard(
+                        data['postUrl'], data['caption'], data['name']);
+                  });
+            }));
   }
 }
