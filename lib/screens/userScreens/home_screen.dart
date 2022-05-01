@@ -6,7 +6,8 @@ import 'package:social_media/providers/feed_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
 import 'package:social_media/screens/postScreens/post_screen_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
-import 'package:social_media/widgets/post_card.dart';
+
+import '../../widgets/post_card.dart';
 
 class HomeScreen extends StatefulWidget {
   User user;
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context, MaterialPageRoute(builder: (_) => PostScreen()));
                 },
                 icon: Icon(Icons.add_box_outlined)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.message_outlined))
+            IconButton(onPressed: () {}, icon: Icon(Icons.toc))
           ],
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
@@ -42,10 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-            stream: provider.postStream,
+        body: StreamBuilder(
+            stream: provider.verifiedFeed,
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+
               if (snapshot.hasError) {
                 return Text('Something went wrong');
               }
@@ -58,9 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot data = snapshot.data!.docs[index];
                     print(snapshot.data!.docs.length);
-                    return PostCard(
+                    return Post(
                         data['postUrl'], data['caption'], data['name']);
                   });
-            }));
+            }),
+    );
   }
 }

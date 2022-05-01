@@ -123,8 +123,9 @@ class _EntityPostsState extends State<EntityPosts> {
               alignment: Alignment.centerRight,
               child: IconButton(
                   onPressed: () {
-                    provider.uploadPost(
-                        file: _file!, caption: postController.text);
+                    //TODO: User Await Here FOR Progress INDICATOR
+                    provider.uploadVerifiedPost(
+                        file: _file, caption: postController.text);
                   },
                   icon: Icon(
                     Icons.arrow_right_alt_rounded,

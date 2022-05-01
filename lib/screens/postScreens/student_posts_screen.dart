@@ -39,7 +39,7 @@ class _StudentPostsState extends State<StudentPosts> {
           ),
         ),
         IconButton(onPressed: () {
-          provider.uploadPost(caption: _captionController.text);
+          provider.uploadStudentPost(caption: _captionController.text);
         }, icon: Icon(Icons.arrow_forward_outlined))
       ],
     );

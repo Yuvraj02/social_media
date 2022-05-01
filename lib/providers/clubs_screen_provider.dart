@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
-class ClubsProvider extends ChangeNotifier{
+class ClubsProvider extends ChangeNotifier {
 
-  Stream<QuerySnapshot> clubsStream = FirebaseFirestore.instance
-      .collection('/entities/entities_list/names').orderBy('name')
-      .snapshots();
-
+  final Stream<QuerySnapshot> clubsStream =
+      FirebaseFirestore.instance.collection('users').where('isAnEntity',isEqualTo:true).snapshots();
+ // TODO: //This is giving error, FIX IT!
 }

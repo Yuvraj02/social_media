@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:social_media/models/user_model.dart';
 
 class SearchAndTrendingProvider extends ChangeNotifier {
-  List<User> queryResultSet = [];
-  List<User> tempSearchStore = [];
+  List<UserModel> queryResultSet = [];
+  List<UserModel> tempSearchStore = [];
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -42,7 +42,7 @@ class SearchAndTrendingProvider extends ChangeNotifier {
       searchByName(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.docs.length; ++i) {
           print(docs.docs[i].data());
-          queryResultSet.add(User.fromJson(docs.docs[i].data() as Map<String, dynamic>));
+          queryResultSet.add(UserModel.fromJson(docs.docs[i].data() as Map<String, dynamic>));
           tempSearchStore = queryResultSet;
           notifyListeners();
         }
@@ -62,7 +62,7 @@ class SearchAndTrendingProvider extends ChangeNotifier {
     if (queryResultSet.isEmpty && value.length == 1) {
       searchByUsername(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.docs.length; ++i) {
-          queryResultSet.add(User.fromJson(docs.docs[i].data() as Map<String, dynamic>));
+          queryResultSet.add(UserModel.fromJson(docs.docs[i].data() as Map<String, dynamic>));
           tempSearchStore = queryResultSet;
           notifyListeners();
         }

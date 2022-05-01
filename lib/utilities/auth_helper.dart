@@ -14,11 +14,11 @@ class AuthHelper {
 
   static entityCheck() async {
     UID = await AuthHelper.getCurrentUID();
-    var collection = _firestore.collection('/entities/entities_list/names');
-    var docSnapshot = await collection.doc(UID).get();
-    if (docSnapshot.exists) {
-      isVerifiedEntity = true;
-    }
+    var snapshot = await _firestore.collection('users').doc(UID).get();
+      if(snapshot.exists){
+        Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+        isVerifiedEntity = data['isVerified'];
+      }
   }
 
   static Future<User?> registerUser(
@@ -57,11 +57,11 @@ class AuthHelper {
       creationTime = user?.metadata.creationTime;
       lastSignIn = user?.metadata.lastSignInTime;
       var difference = lastSignIn?.difference(creationTime!).inMinutes;
-      print(difference);
+    //  print(difference);
       if (difference! < 1) {
         newUser = true;
       }
-      print(newUser);
+    //  print(newUser);
     } on FirebaseAuthException catch (error) {
       if (error.code == 'user-not-found') {
         print("User does not exist");

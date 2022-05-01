@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -28,31 +30,31 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("Yuvraj Singh Bhadoria"),
+                      child: Text(_auth.currentUser!.displayName!),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.amber)),
-                            onPressed: () {},
-                            child: Text(
-                              "Connect",
-                              style: TextStyle(color: Colors.blueGrey),
-                            )),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.blueGrey)),
-                            onPressed: () {},
-                            child: Text("Message"))
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     ElevatedButton(
+                    //         style: ButtonStyle(
+                    //             backgroundColor:
+                    //                 MaterialStateProperty.all(Colors.amber)),
+                    //         onPressed: () {},
+                    //         child: Text(
+                    //           "Connect",
+                    //           style: TextStyle(color: Colors.blueGrey),
+                    //         )),
+                    //     SizedBox(
+                    //       width: 16,
+                    //     ),
+                    //     ElevatedButton(
+                    //         style: ButtonStyle(
+                    //             backgroundColor:
+                    //                 MaterialStateProperty.all(Colors.blueGrey)),
+                    //         onPressed: () {},
+                    //         child: Text("Message"))
+                    //   ],
+                    // ),
                   ],
                 )
               ],

@@ -12,22 +12,18 @@ import 'package:social_media/utilities/auth_helper.dart';
 import 'package:uuid/uuid.dart';
 
 class PostProvider with ChangeNotifier {
-  var firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  bool? isVerified;
 
-  bool? isEntity;
-
-  //------Check if the user is a verified entity or not
   entityCheck() async {
     String UID = await AuthHelper.getCurrentUID();
-    var collection = firestore.collection('/entities/entities_list/names');
-    var docSnapshot = await collection.doc(UID).get();
-    if (docSnapshot.exists) {
-      isEntity = true;
-    } else {
-      isEntity = false;
+
+    var snapshot = await _firestore.collection('users').doc(UID).get();
+    if (snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      isVerified = data['isVerified'];
     }
     notifyListeners();
   }
@@ -35,14 +31,15 @@ class PostProvider with ChangeNotifier {
   //-----------To pick the media
   pickImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
-    XFile? _file = await _imagePicker.pickImage(source: source,imageQuality: 2);
+    XFile? _file =
+        await _imagePicker.pickImage(source: source, imageQuality: 2);
 
-    if(_file!=null) {
+    if (_file != null) {
       File actualFile = File(_file.path);
-      File? croppedFile =  await cropImage(actualFile);
-      if(croppedFile != null){
+      File? croppedFile = await cropImage(actualFile);
+      if (croppedFile != null) {
         return croppedFile.readAsBytes();
-      }else{
+      } else {
         print("Another File is null");
       }
     }
@@ -54,7 +51,6 @@ class PostProvider with ChangeNotifier {
         sourcePath: file.path,
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [CropAspectRatioPreset.square]);
-
   }
 
   Future<String> _uploadToFirebaseStorage(
@@ -75,28 +71,66 @@ class PostProvider with ChangeNotifier {
     return downloadUrl;
   }
 
-  Future<String> uploadPost({ Uint8List? file, required String caption}) async {
+  Future<String> uploadVerifiedPost(
+      {Uint8List? file, required String caption}) async {
     String res = "Some Error Occured";
     String? postUrl;
-    if(file!=null){
+    if (file != null) {
       postUrl = await _uploadToFirebaseStorage('posts', file, true);
     }
-    try{
-        String? name = _firebaseAuth.currentUser!.displayName;
-        String postId = const Uuid().v1();
-        Post post = Post(
-            postUrl: postUrl,
-            postID: postId,
-            caption: caption,
-            uid: _firebaseAuth.currentUser!.uid,
-            name: name!,
-            date: Timestamp.now());
+    try {
+      String? name = _firebaseAuth.currentUser!.displayName;
+      String postId = const Uuid().v1();
+      Post post = Post(
+          postUrl: postUrl,
+          postID: postId,
+          caption: caption,
+          uid: _firebaseAuth.currentUser!.uid,
+          name: name!,
+          date: Timestamp.now(),
+          fromVerified: true);
 
-        _firestore.collection('posts').doc(postId).set(post.toJson());
-        res = "success";
-      } catch (err) {
+      _firestore.collection('posts').doc(postId).set(post.toJson());
+      _firestore
+          .collection('users/${_firebaseAuth.currentUser!.uid}/posts')
+          .doc(postId)
+          .set(post.toJson());
+
+      res = "success";
+    } catch (err) {
       res = err.toString();
-      }
+    }
+    return res;
+  }
+
+  Future<String> uploadStudentPost(
+      {Uint8List? file, required String caption}) async {
+    String res = "Some Error Occured";
+    String? postUrl;
+    if (file != null) {
+      postUrl = await _uploadToFirebaseStorage('posts', file, true);
+    }
+    try {
+      String? name = _firebaseAuth.currentUser!.displayName;
+      String postId = const Uuid().v1();
+      Post post = Post(
+          postUrl: postUrl,
+          postID: postId,
+          caption: caption,
+          uid: _firebaseAuth.currentUser!.uid,
+          name: name!,
+          date: Timestamp.now(),
+          fromVerified: false);
+
+      _firestore.collection('student_posts').doc(postId).set(post.toJson());
+      _firestore
+          .collection('users/${_firebaseAuth.currentUser!.uid}/posts')
+          .doc(postId)
+          .set(post.toJson());
+      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
     return res;
   }
 }

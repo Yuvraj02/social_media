@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/providers/clubs_screen_provider.dart';
+import 'package:social_media/providers/event_provider.dart';
 import 'package:social_media/providers/feed_provider.dart';
 import 'package:social_media/providers/post_screen_provider.dart';
 import 'package:social_media/providers/registration_provider.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context)=>ClubsProvider()),
         ChangeNotifierProvider(create: (context)=>SearchAndTrendingProvider()),
         ChangeNotifierProvider(create: (context)=>UserDetailsProvider()),
+        ChangeNotifierProvider(create: (context)=>EventsProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

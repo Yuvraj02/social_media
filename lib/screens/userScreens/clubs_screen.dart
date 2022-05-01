@@ -17,7 +17,7 @@ class ClubScreen extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return Center(child: Text('Something went wrong'));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -28,9 +28,6 @@ class ClubScreen extends StatelessWidget {
               Map<String, dynamic> data =
               document.data()! as Map<String, dynamic>;
               return ListTile(title: Text(data['name']),);
-              //   ListTile(
-              //   title: Text(data['caption']),
-              // );
             }).toList(),
           );
         });

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_media/providers/search_trending_provider.dart';
-import 'package:social_media/screens/userScreens/searched_user_profile_screen.dart';
+import 'package:social_media/screens/userScreens/searchScreen/searched_user_profile_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

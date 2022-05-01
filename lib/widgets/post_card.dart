@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class PostCard extends StatelessWidget {
+class Post extends StatelessWidget {
   String? url;
   String caption;
   String name;
 
-  PostCard(this.url, this.caption, this.name);
+  Post(this.url, this.caption, this.name);
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +51,12 @@ class PostCard extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                  onPressed: () {}, icon: Icon(Icons.thumb_up_alt_outlined)),
+                  onPressed: () { }, icon: Icon(Icons.thumb_up_alt_outlined)),
               IconButton(onPressed: () {}, icon: Icon(Icons.comment_outlined)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.share_outlined)),
               Spacer(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_border)),
+              IconButton(onPressed: () {}, icon: Icon(Icons.share_outlined)),
+              //Spacer(),
+             // IconButton(onPressed: () {}, icon: Icon(Icons.bookmark_border)),
             ],
           ),
           url != null? Padding(

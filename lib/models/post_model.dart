@@ -7,6 +7,7 @@ class Post {
   String uid;
   String name;
   Timestamp date;
+  bool fromVerified;
 
   Post(
       {this.postUrl,
@@ -14,9 +15,11 @@ class Post {
       required this.caption,
       required this.uid,
       required this.name,
-      required this.date});
+      required this.date,
+      required this.fromVerified});
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
+      fromVerified: json['fromVerified'],
       postUrl: json['postUrl'],
       postID: json['postID'],
       caption: json['caption'],
@@ -33,6 +36,7 @@ class Post {
       'uid': uid,
       'name': name,
       'datePublished' : date,
+      'fromVerified':fromVerified,
     };
   }
 }
