@@ -13,6 +13,7 @@ class CreateEvent extends StatefulWidget {
 }
 
 class _CreateEventState extends State<CreateEvent> {
+  bool isPosting = false;
   Uint8List? _file;
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
@@ -31,9 +32,11 @@ class _CreateEventState extends State<CreateEvent> {
           child: Column(
             children: [
               TextField(
+                controller: _titleController,
                 decoration: InputDecoration(hintText: 'Event Title'),
               ),
               TextField(
+                controller: _descriptionController,
                 decoration: InputDecoration(hintText: 'Event Description'),
               ),
               InkWell(
@@ -97,7 +100,7 @@ class _CreateEventState extends State<CreateEvent> {
                   ),
                 ],
               ),
-              ElevatedButton(
+             isPosting?CircularProgressIndicator(): ElevatedButton(
                   onPressed: () async {
                     if (_file == null ||
                         _titleController == null ||
@@ -106,7 +109,9 @@ class _CreateEventState extends State<CreateEvent> {
                           content: Text(
                               "Kindly Check if all the fields are filled correctly")));
                     } else {
-
+                      setState(() {
+                        isPosting = true;
+                      });
                       //TODO: User Await Here FOR Progress INDICATOR
                       await provider.createEvent(
                           file: _file,
@@ -115,6 +120,9 @@ class _CreateEventState extends State<CreateEvent> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
                               "Congratulations! You have created an Event")));
+                      setState(() {
+                        isPosting = false;
+                      });
                       Navigator.pop(context);
                     }
                   },

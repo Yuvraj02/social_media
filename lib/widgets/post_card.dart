@@ -67,6 +67,7 @@ class Post extends StatelessWidget {
                   "$name",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
+                SizedBox(width: 4,),
                 Text(caption),
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventModel {
   String title;
+  String uid;
   String description;
   String eventAuthorName;
   String eventDate;
@@ -14,14 +15,16 @@ class EventModel {
       required this.eventAuthorName,
       required this.eventDate,
       required this.imageUrl,
-      required this.datePublished});
+      required this.datePublished,
+      required this.uid});
 
   factory EventModel.fromJson(Map<String, dynamic> json) => EventModel(
       title: json['title'],
       description: json['description'],
       eventAuthorName: json['eventAuthorName'],
-      eventDate: json['eventData'],
+      eventDate: json['eventDate'],
       imageUrl: json['imageUrl'],
+      uid: json['uid'],
       datePublished: json['datePublished']);
 
   Map<String,dynamic> toJson(){
@@ -32,6 +35,7 @@ class EventModel {
       'eventDate':eventDate,
       'datePublished':datePublished,
       'imageUrl':imageUrl,
+      'uid':uid,
     };
   }
 

@@ -32,7 +32,7 @@ class PostProvider with ChangeNotifier {
   pickImage(ImageSource source) async {
     final ImagePicker _imagePicker = ImagePicker();
     XFile? _file =
-        await _imagePicker.pickImage(source: source, imageQuality: 2);
+        await _imagePicker.pickImage(source: source, imageQuality: 20);
 
     if (_file != null) {
       File actualFile = File(_file.path);
@@ -81,7 +81,7 @@ class PostProvider with ChangeNotifier {
     try {
       String? name = _firebaseAuth.currentUser!.displayName;
       String postId = const Uuid().v1();
-      Post post = Post(
+      PostModel post = PostModel(
           postUrl: postUrl,
           postID: postId,
           caption: caption,
@@ -113,7 +113,7 @@ class PostProvider with ChangeNotifier {
     try {
       String? name = _firebaseAuth.currentUser!.displayName;
       String postId = const Uuid().v1();
-      Post post = Post(
+      PostModel post = PostModel(
           postUrl: postUrl,
           postID: postId,
           caption: caption,

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/screens/userScreens/profile_screen.dart';
-import 'package:social_media/screens/userScreens/searchScreen/search_screen.dart';
 import 'package:social_media/screens/userScreens/students_discussion_screen.dart';
 import 'package:social_media/utilities/auth_helper.dart';
-import 'clubs_screen.dart';
 import 'eventScreens/events_screen.dart';
-import 'home_screen.dart';
+import 'searchScreen/search_screen.dart';
+import 'userScreens/home_screen.dart';
 
 class ScreenHandler extends StatefulWidget {
   const ScreenHandler({Key? key}) : super(key: key);

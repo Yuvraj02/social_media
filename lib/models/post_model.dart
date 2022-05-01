@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Post {
+class PostModel {
   String? postUrl;
   String postID;
   String caption;
@@ -9,7 +9,7 @@ class Post {
   Timestamp date;
   bool fromVerified;
 
-  Post(
+  PostModel(
       {this.postUrl,
       required this.postID,
       required this.caption,
@@ -18,7 +18,7 @@ class Post {
       required this.date,
       required this.fromVerified});
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
+  factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
       fromVerified: json['fromVerified'],
       postUrl: json['postUrl'],
       postID: json['postID'],

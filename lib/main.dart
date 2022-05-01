@@ -10,7 +10,7 @@ import 'package:social_media/providers/registration_provider.dart';
 import 'package:social_media/providers/search_trending_provider.dart';
 import 'package:social_media/providers/user_details_provider.dart';
 import 'package:social_media/screens/login_screen.dart';
-import 'package:social_media/screens/userScreens/screens_handler.dart';
+import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 
 void main() async {

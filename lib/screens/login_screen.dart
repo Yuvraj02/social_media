@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_media/screens/newUserScreens/club_selection_screen.dart';
 import 'package:social_media/screens/registrationScreens/register_entity_screen.dart';
 import 'package:social_media/screens/registrationScreens/register_student_screen.dart';
-import 'package:social_media/screens/userScreens/screens_handler.dart';
+import 'package:social_media/screens/screens_handler.dart';
 import 'package:social_media/utilities/auth_helper.dart';
 
 class LoginScreen extends StatefulWidget {

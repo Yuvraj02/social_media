@@ -29,6 +29,8 @@ class RegisterStudentScreen extends StatelessWidget {
       return username;
     }
 
+    //TODO :Temporary Solution TO IDENTIFY SRM STUDENT, USE VALIDATION and Change This SNACKBAR
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -50,18 +52,23 @@ class RegisterStudentScreen extends StatelessWidget {
                   decoration: InputDecoration(labelText: 'Password')),
               ElevatedButton(
                   onPressed: () {
-                    provider.registerStudent(
-                        name: _nameController.text,
-                        userName: extractUsername(_emailController.text),
-                        email: _emailController.text,
-                        password: _passwordController.text);
-                    Navigator.pop(loginScreenContext);
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (_) => LoginScreen(
-                                  loginPageContext: loginScreenContext,
-                                )));
+                    if (_emailController.text.contains("@srmist.edu.in")) {
+                      provider.registerStudent(
+                          name: _nameController.text,
+                          userName: extractUsername(_emailController.text),
+                          email: _emailController.text,
+                          password: _passwordController.text);
+                      Navigator.pop(loginScreenContext);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => LoginScreen(
+                                    loginPageContext: loginScreenContext,
+                                  )));
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Please Login with you SRM ID")));
+                    }
                   },
                   child: Text("Register"))
             ],
