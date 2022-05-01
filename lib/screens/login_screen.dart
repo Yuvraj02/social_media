@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:social_media/screens/newUserScreens/club_selection_screen.dart';
+import 'package:social_media/screens/newUserScreens/edit_profile_screen.dart';
 import 'package:social_media/screens/registrationScreens/register_entity_screen.dart';
 import 'package:social_media/screens/registrationScreens/register_student_screen.dart';
 import 'package:social_media/screens/screens_handler.dart';
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (newUser) {
                         Navigator.pushReplacement(
                             context, MaterialPageRoute(builder: (_) =>
-                            ClubSelectionNewUser(user)));
+                            EditProfileNewUser(user)));
                       } else {
                         Navigator.pushReplacement(
                             context,
